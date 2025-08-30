@@ -1,3 +1,6 @@
 qctx/qblot.env
 qctx/NVIDIA_Driver_555.99.exe
 qctx/context/chat.html
+qctx/vectors.jsonl
+qctx/context/conversations.json
+qctx/vectors_pca_topk.npy.txt
