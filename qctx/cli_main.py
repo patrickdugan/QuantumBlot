@@ -11,9 +11,37 @@ from .loader import slurp_text, preprocess_markdown, slice_bytes
 from .embeddings import encode_texts, EmbeddingBackendMissing
 from .dimred import pca_project
 from .qft_pca import fourier_fingerprint
+from . import big
 
 
 app = typer.Typer(help="Quantum Context Toolkit CLI")
+
+@app.command("ingest-big")
+def cmd_ingest_big(path: str, out: str = "chunks.jsonl", limit: int = 2048, assume_html: bool = None):
+    """Stream-ingest a huge file to JSONL chunks {id,text}."""
+    count = big.write_jsonl_chunks(path, out, limit_bytes=limit, assume_html=assume_html)
+    typer.echo(json.dumps({"count": count, "out": out}))
+
+@app.command("embed-big")
+def cmd_embed_big(chunks: str = "chunks.jsonl", out: str = "vectors.jsonl", model: str = "all-MiniLM-L6-v2", batch_size: int = 64):
+    """Embed chunks JSONL -> vectors JSONL (streaming)."""
+    total = big.embed_jsonl(chunks, out, model_name=model, batch_size=batch_size)
+    typer.echo(json.dumps({"count": total, "out": out, "model": model}))
+
+@app.command("reduce-big")
+def cmd_reduce_big(vectors: str = "vectors.jsonl", out: str = "reduced.jsonl", n_components: int = 2, batch_size: int = 1024):
+    """Incremental PCA on vectors JSONL -> reduced JSONL."""
+    total = big.incremental_pca_jsonl(vectors, out, n_components=n_components, batch_size=batch_size)
+    typer.echo(json.dumps({"count": total, "out": out, "n_components": n_components}))
+
+@app.command("qft-centroid")
+def cmd_qft_centroid(vectors: str = "vectors.jsonl", shots: int = 1024, take: int = None):
+    """Compute centroid amplitude from vectors JSONL and run QFT fingerprint."""
+    import numpy as np
+    amp = big.centroid_amplitude_from_vectors_jsonl(vectors, take=take)
+    counts = fourier_fingerprint(amp, shots=shots)
+    typer.echo(json.dumps(counts))
+
 
 
 @app.command("ingest")
