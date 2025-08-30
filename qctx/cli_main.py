@@ -62,7 +62,7 @@ def cmd_qft_pc1(vectors:str='vectors.jsonl', shots:int=2048, target_len:int=4096
     if len(v)!=target_len:
         import numpy as _np
         if len(v)<target_len:
-            pad=_np.zeros(target_len,dtype=float); pad[:len(v)]=v; v=pad
+            pad=_np.zeros(target_len,dtype=float); pad[:len(v)] = v; v=pad
         else:
             v=v[:target_len]; v=v/_np.linalg.norm(v)
     counts=fourier_fingerprint(v, shots=shots)
@@ -76,5 +76,24 @@ def cmd_pack_rope(chunks:str='chunks.jsonl', vectors:str='vectors.jsonl', out:st
     pack=build_rope_hints(chunks, vectors, out, n_components=n_components, k_clusters=k_clusters, shots=shots, pc1_len=pc1_len, timeline_slices=timeline_slices)
     typer.echo(json.dumps({'out':out,'k':k_clusters,'pc1_len':pc1_len,'shots':shots,'n_components':n_components}))
 
-def main(): app()
-if __name__=='__main__': main()
+# --- Chroma integration ---
+from .chroma_io import load_into_chroma as _chroma_load, search as _chroma_search, get_items as _chroma_get
+
+@app.command("chroma-load")
+def cmd_chroma_load(chunks: str = "chunks.jsonl", vectors: str = "vectors.jsonl", persist: str = "./chroma", collection: str = "qctx", batch: int = 512):
+    """Load vectors+chunks into a Chroma collection."""
+    n = _chroma_load(chunks, vectors, persist_dir=persist, collection=collection, batch=batch)
+    typer.echo(json.dumps({"loaded": n, "collection": collection, "persist": persist}))
+
+@app.command("chroma-search")
+def cmd_chroma_search(query: str, k: int = 64, persist: str = "./chroma", collection: str = "qctx", model: str = "all-MiniLM-L6-v2"):
+    """Search Chroma with a fresh embedding of the query."""
+    hits = _chroma_search(persist, collection, query, k=k, model_name=model)
+    typer.echo(json.dumps({"hits": hits}))
+
+@app.command("chroma-get")
+def cmd_chroma_get(ids: str, persist: str = "./chroma", collection: str = "qctx"):
+    """Fetch items by ids (comma-separated)."""
+    id_list = [int(x) for x in ids.split(",") if x.strip()]
+    items = _chroma_get(persist, collection, id_list)
+    typer.echo(json.dumps({"items": items}))

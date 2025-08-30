@@ -5,10 +5,9 @@ try:
     from bs4 import BeautifulSoup
 except Exception:
     BeautifulSoup=None
-
 def html_to_text_stream(html_iter: Iterable[str]) -> Iterator[str]:
     if BeautifulSoup is not None:
-        buf=[]
+        buf=[]; 
         for line in html_iter: buf.append(line)
         soup=BeautifulSoup(''.join(buf),'html.parser')
         text=soup.get_text(separator='\n')
