@@ -2,33 +2,24 @@
 import os, re, argparse
 import numpy as np
 from qiskit import QuantumCircuit, transpile
-from qiskit.circuit.library import QFTGate
-from qiskit_ibm_runtime import QiskitRuntimeService, Session, SamplerV2 as Sampler
 from qiskit.synthesis.qft import synth_qft_full
+from qiskit_ibm_runtime import QiskitRuntimeService, SamplerV2 as Sampler
 
-
+# ---------- circuit builder ----------
 def build_qft_circuit(amplitudes: np.ndarray) -> QuantumCircuit:
-    """Build a QFT circuit with proper qubit swaps (FFT ordering)."""
+    """Build a QFT circuit with swaps and full normalization."""
     n = int(np.ceil(np.log2(len(amplitudes))))
-    pow2 = 2**n
-
-    # pad to power of two
+    pow2 = 1 << n
     vec = np.pad(amplitudes, (0, pow2 - len(amplitudes)), mode="constant")
-    vec = vec / np.linalg.norm(vec)  # normalize
+    vec = vec / np.linalg.norm(vec)
 
     qc = QuantumCircuit(n)
     qc.initialize(vec, range(n))
-
-    # Use synth_qft_full to include swaps
-    qft_circ = synth_qft_full(n, do_swaps=True)  
-    qc.append(qft_circ, range(n))
-
+    qc.append(synth_qft_full(n, do_swaps=True), range(n))
     qc.measure_all()
     return qc
 
-
-
-# ---------- env loading ----------
+# ---------- env loader ----------
 def load_env_file(path: str) -> None:
     if not os.path.exists(path):
         return
@@ -60,14 +51,12 @@ def vector_to_amplitudes(vec: np.ndarray, n_qubits: int) -> np.ndarray:
     else:
         v = np.pad(v, (0, target_len - v.size), mode="constant")
 
-    # Renormalize; if zero vector, set |0>
     norm2 = float(np.dot(v, v))
     if norm2 <= 0:
         v[:] = 0.0
         v[0] = 1.0
     else:
         v /= np.sqrt(norm2)
-        # guard against tiny drift
         v /= np.sqrt(float(np.dot(v, v)))
     return v
 
@@ -75,9 +64,9 @@ def vector_to_amplitudes(vec: np.ndarray, n_qubits: int) -> np.ndarray:
 ap = argparse.ArgumentParser()
 ap.add_argument("--vec", default="vectors_pca_topk.npy")
 ap.add_argument("--row", type=int, default=0)
-ap.add_argument("--nqubits", type=int, default=7)
+ap.add_argument("--nqubits", type=int, default=25)
 ap.add_argument("--backend", default=os.environ.get("DEFAULT_BACKEND", "ibm_brisbane"))
-ap.add_argument("--shots", type=int, default=int(os.environ.get("DEFAULT_SHOTS", "2048")))
+ap.add_argument("--shots", type=int, default=int(os.environ.get("DEFAULT_SHOTS", "250")))
 ap.add_argument("--env", default=None)
 args = ap.parse_args()
 
@@ -107,15 +96,19 @@ if args.nqubits > max_q:
 qc = build_qft_circuit(amplitudes)
 tqc = transpile(qc, backend=backend, optimization_level=1)
 
-sampler = Sampler(backend=backend)
+from qiskit_ibm_runtime import SamplerV2 as Sampler
+
+# Instantiate Sampler bound to your backend
+sampler = Sampler(backend)
+
+# Run the job
 job = sampler.run([tqc], shots=args.shots)
 print("Submitted job:", job.job_id())
+
 res = job.result()
 
-
-# SamplerV2 returns quasi-probabilities
+# Sampler v2 result has quasi_dists
 quasi = res[0].data.meas.get_counts()
-# convert to integer-like counts
 counts = {k: int(round(v * args.shots)) for k, v in quasi.items()}
 
 # show top 20
