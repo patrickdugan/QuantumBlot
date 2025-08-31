@@ -1,0 +1,125 @@
+{
+  "thematics": {
+    "TradeLayer Dev (DEX, Wallets, Orderbook)": {
+      "trend": [
+        8,
+        9,
+        10,
+        9,
+        7,
+        6
+      ],
+      "summary": "Core focus on DEX infrastructure, wallets, and orderbook debugging. Peaked Mar\u2013May, then declined as fixes stabilized and attention shifted."
+    },
+    "Algo Trading / Market Making": {
+      "trend": [
+        5,
+        6,
+        7,
+        8,
+        9,
+        7
+      ],
+      "summary": "Climbed steadily to a July peak, centered on scalping strategies, MM incentives, and algo trading UI. Slight decline in Aug as engineering took focus."
+    },
+    "AI Research (QFT, Alignment, Storyworlds)": {
+      "trend": [
+        6,
+        7,
+        9,
+        10,
+        8,
+        9
+      ],
+      "summary": "Highly volatile and visionary. Peaked in Jun with CODAC/QFT, FRC, and storyworlds. Sustained intensity through Aug."
+    },
+    "Metaphysics / Theology (Islam, Eschatology)": {
+      "trend": [
+        4,
+        5,
+        5,
+        6,
+        6,
+        5
+      ],
+      "summary": "Steady but lower intensity. Peaks in May\u2013Jul with Qur\u2019anic and eschatological exploration tied to AI alignment thought."
+    },
+    "Fundraising / Strategy (VC, CORFO, Marketing)": {
+      "trend": [
+        7,
+        8,
+        7,
+        6,
+        8,
+        7
+      ],
+      "summary": "Active Mar\u2013Apr (CORFO, investors), dipped in Jun, renewed in Jul with Expo/Match-Trade focus. Stable but secondary in Aug."
+    },
+    "Writing / Creative (Blighted Galaxy, Essays)": {
+      "trend": [
+        3,
+        4,
+        4,
+        5,
+        6,
+        5
+      ],
+      "summary": "Gradual climb to Jul peak, blending fiction and metaphysical essays. Cooled slightly in Aug but remains integrative outlet."
+    }
+  },
+  "semantic_associations": {
+    "TradeLayer Dev": [
+      "DEX",
+      "wallets",
+      "orderbook",
+      "relayer",
+      "scaling",
+      "security",
+      "checkpointing"
+    ],
+    "Algo Trading": [
+      "hedging",
+      "scalping",
+      "Bollinger Bands",
+      "ATR",
+      "MM incentives",
+      "throughput",
+      "HyperExpress"
+    ],
+    "AI Research": [
+      "QFT",
+      "semantic codex",
+      "CODAC",
+      "storyworlds",
+      "alignment",
+      "Riemann Hypothesis",
+      "interpretability"
+    ],
+    "Metaphysics": [
+      "Islam",
+      "eschatology",
+      "Qur'an",
+      "Mahd\u012b",
+      "Ibn Arabi",
+      "barzakh",
+      "universal salvation"
+    ],
+    "Fundraising": [
+      "VC",
+      "CORFO",
+      "Eureka",
+      "marketing",
+      "expo",
+      "investors",
+      "strategy"
+    ],
+    "Writing": [
+      "Blighted Galaxy",
+      "fiction",
+      "essays",
+      "creative synthesis",
+      "storyworlds",
+      "metaphysical narrative"
+    ]
+  }
+}

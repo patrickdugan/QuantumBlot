@@ -40,7 +40,7 @@ def main():
     # --- run the QFT fingerprint ---
     counts = fourier_fingerprint_runtime(
         amplitudes,
-        shots=1024,                    # bump to 2048 if budget allows
+        shots=8000,                    # bump to 2048 if budget allows
         backend_name="ibm_brisbane",     # or any available backend
         token=os.environ.get("IBM_CLOUD_API_KEY"),
         instance=os.environ.get("IBM_QUANTUM_CRN"),

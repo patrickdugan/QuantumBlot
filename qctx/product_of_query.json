@@ -1,0 +1,56 @@
+{
+  "query": {
+    "theme": "AI Research (QFT, Alignment, Storyworlds)",
+    "signature_peaks": [
+      23,
+      14,
+      29,
+      0,
+      25,
+      5,
+      38,
+      18
+    ],
+    "source": "qft_gate"
+  },
+  "params": {
+    "bands": 48,
+    "gate_overlap": 0.25
+  },
+  "results": [
+    {
+      "id": "doc-5",
+      "score": 0.4847,
+      "overlap": 0.25,
+      "cosine": 0.1669,
+      "sig_sim": 0.9615,
+      "fft_peaks": [
+        31,
+        16,
+        35,
+        12,
+        23,
+        29,
+        4,
+        43
+      ]
+    },
+    {
+      "id": "doc-3",
+      "score": 0.4743,
+      "overlap": 0.25,
+      "cosine": 0.1463,
+      "sig_sim": 0.9662,
+      "fft_peaks": [
+        23,
+        24,
+        36,
+        0,
+        11,
+        20,
+        28,
+        19
+      ]
+    }
+  ]
+}

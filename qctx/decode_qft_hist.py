@@ -27,7 +27,7 @@ ROPE_PATH     = "rope_hint.json"
 VECTORS_PATH  = "vectors.jsonl"
 OUTPUT_PATH   = "decoded_cards.json"
 REVERSE_BITS  = False                 # set True if your bit order is reversed
-TOP_NEIGHBORS = 24                    # how many cards to emit
+TOP_NEIGHBORS = 200                   # how many cards to emit
 
 # ---------- load your env (qblot.env / .env) ----------
 def load_env_file(path: str):
@@ -129,7 +129,7 @@ def pca_to_embedding(pca_basis: dict, pca_coords: np.ndarray) -> np.ndarray:
     nrm = np.linalg.norm(emb)
     return emb / (nrm if nrm else 1.0)
 
-def stream_topk_neighbors(vectors_jsonl: str, query_vec: np.ndarray, k: int = 20) -> List[Tuple[float,int,str]]:
+def stream_topk_neighbors(vectors_jsonl: str, query_vec: np.ndarray, k: int = 200) -> List[Tuple[float,int,str]]:
     H: List[Tuple[float,int,str]] = []
     q = query_vec
     with open(vectors_jsonl, "r", encoding="utf-8") as f:
