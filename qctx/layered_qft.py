@@ -1,19 +1,44 @@
+# layered_qft.py
+"""
+Layered QFT circuit builder + helpers.
+
+Pipeline:
+  1. Pad input to 2^n
+  2. RoPE-style positional phase (odd indices)
+  3. StatePreparation
+  4. Hadamards (spread amplitudes)
+  5. QFT (no swaps)
+  6. Theme-gated RZ rotations
+  7. Inverse QFT (no swaps)
+  8. Measure
+"""
+
+import numpy as np
 from qiskit import QuantumCircuit, QuantumRegister, ClassicalRegister
 from qiskit.circuit.library import QFT, StatePreparation
-import numpy as np
 
-def build_interference_circuit(vec, n_qubits, theme_id=0, pos=0, base=10000.0):
+# ---------------------------------------------------------------------
+# Circuit builder
+# ---------------------------------------------------------------------
+def build_interference_circuit(vec, n_qubits, theme_id: int = 0, pos: int = 0, base: float = 10000.0):
     """
-    vec: real/complex vector to load (len must be <= 2**n_qubits)
-    n_qubits: size of register (e.g. 9 for 512 amps)
-    theme_id: int, used to seed a deterministic phase schedule
-    pos: chunk position (for RoPE)
+    Build a layered QFT circuit.
+
+    Args:
+        vec: Input vector (list/ndarray), will be padded/truncated to 2^n.
+        n_qubits: Number of qubits.
+        theme_id: Int seed for theme-specific RZ phase schedule.
+        pos: Position index (for RoPE binding).
+        base: RoPE base constant.
+
+    Returns:
+        QuantumCircuit with measurements.
     """
     qr = QuantumRegister(n_qubits, "q")
     cr = ClassicalRegister(n_qubits, "c")
     qc = QuantumCircuit(qr, cr)
 
-    # -- 0. Project to length 2^n
+    # 0. Pad/project input
     d = 1 << n_qubits
     x = np.zeros(d, dtype=np.complex128)
     v = np.array(vec, dtype=np.complex128)
@@ -21,34 +46,74 @@ def build_interference_circuit(vec, n_qubits, theme_id=0, pos=0, base=10000.0):
     x[:L] = v
     x /= np.linalg.norm(x) + 1e-12
 
-    # -- 1. RoPE-style phase on odd indices (position binding)
-    idx = np.arange(d//2)
-    theta = pos * (base ** (-idx/(d//2)))
+    # 1. RoPE phase on odd indices
+    idx = np.arange(d // 2)
+    theta = pos * (base ** (-idx / (d // 2)))
     for k, ang in enumerate(theta):
-        i1 = 2*k+1
+        i1 = 2 * k + 1
         if i1 < L:
-            x[i1] *= np.cos(ang) + 1j*np.sin(ang)
+            x[i1] *= np.cos(ang) + 1j * np.sin(ang)
 
-    # -- 2. Load amplitudes
+    # 2. State prep
     qc.append(StatePreparation(x), qr)
 
-    # -- 3. Spread with Hadamards
+    # 3. Spread with Hadamards
     qc.h(qr)
 
-    # -- 4. QFT (no swaps, so decoding is consistent)
+    # 4. QFT
     qft = QFT(num_qubits=n_qubits, do_swaps=False, approximation_degree=0)
     qc.append(qft, qr)
 
-    # -- 5. Theme-gated phases
-    rng = np.random.default_rng(theme_id*991)
+    # 5. Theme-gated RZ phases
+    rng = np.random.default_rng(theme_id * 991)
     for i in range(n_qubits):
         angle = float(rng.uniform(-np.pi, np.pi)) * 0.25
         qc.rz(angle, qr[i])
 
-    # -- 6. Inverse QFT
+    # 6. Inverse QFT
     iqft = QFT(num_qubits=n_qubits, inverse=True, do_swaps=False, approximation_degree=0)
     qc.append(iqft, qr)
 
-    # -- 7. Measure
+    # 7. Measure
     qc.measure(qr, cr)
     return qc
+
+# ---------------------------------------------------------------------
+# Decoders
+# ---------------------------------------------------------------------
+def bit_reverse_indices(n: int):
+    """Return indices for bit reversal on n-bit strings."""
+    d = 1 << n
+    return np.array([int(bin(i)[2:].zfill(n)[::-1], 2) for i in range(d)])
+
+def counts_to_band_signature(counts: dict, n_qubits: int, bands: int = 48, reverse_bits: bool = False):
+    """
+    Convert counts dict → probability vector → FFT PSD bands.
+
+    Args:
+        counts: dict {bitstring: shots}
+        n_qubits: number of qubits
+        bands: number of frequency bands to reduce into
+        reverse_bits: whether to bit-reverse order (matches QFT do_swaps=False)
+
+    Returns:
+        np.ndarray of length = bands
+    """
+    d = 1 << n_qubits
+    p = np.zeros(d, dtype=np.float64)
+    total = 0
+    for bstr, c in counts.items():
+        try:
+            i = int(bstr, 2)
+            p[i] += c; total += c
+        except:
+            continue
+    p /= (total + 1e-12)
+
+    if reverse_bits:
+        p = p[bit_reverse_indices(n_qubits)]
+
+    spec = np.fft.fft(p)
+    psd = (spec.conj() * spec).real
+    edges = np.linspace(0, psd.size, bands + 1, dtype=int)
+    return np.array([psd[edges[i]:edges[i+1]].sum() for i in range(bands)], dtype=np.float32)
