@@ -2,6 +2,7 @@ import json
 import numpy as np
 from sklearn.decomposition import PCA
 from tqdm import tqdm
+import math
 
 def load_vectors(jsonl_path):
     texts, vecs = [], []
@@ -22,7 +23,6 @@ def sparsify_topk(vectors, k=16):
     print(f"Applying top-{k} sparsification...")
     sparse = np.zeros_like(vectors)
     for i, row in enumerate(vectors):
-        # pick top-k absolute values
         idx = np.argpartition(np.abs(row), -k)[-k:]
         sparse[i, idx] = row[idx]
     return sparse
@@ -30,22 +30,23 @@ def sparsify_topk(vectors, k=16):
 def save_sparse(out_path, sparse_vecs, texts=None):
     np.save(out_path, sparse_vecs)
     print(f"Wrote sparse array: {out_path} ({sparse_vecs.shape})")
+    # --- qubit count estimate ---
+    L = sparse_vecs.shape[1]
+    n_qubits = int(math.ceil(math.log2(L)))
+    print(f"Vector length {L} → {n_qubits} qubits (after pow2 pad/trunc)")
     if texts is not None:
         with open(out_path + ".txt", "w", encoding="utf-8") as f:
             for t in texts:
                 f.write(t.replace("\n"," ") + "\n")
 
 if __name__ == "__main__":
-    # paths
     jsonl_path = "./vectors.jsonl"
     out_path = "./vectors_pca_topk.npy"
 
-    # pipeline
     texts, vecs = load_vectors(jsonl_path)
-    reduced, pca = reduce_pca(vecs, n_components=64)
-    sparse = sparsify_topk(reduced, k=16)
+    reduced, pca = reduce_pca(vecs, n_components=256)   # change this to 128, 256, etc.
+    sparse = sparsify_topk(reduced, k=32)
 
-    # normalize for amplitude encoding (optional)
     norms = np.linalg.norm(sparse, axis=1, keepdims=True) + 1e-9
     sparse = sparse / norms
 

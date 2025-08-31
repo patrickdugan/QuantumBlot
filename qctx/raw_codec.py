@@ -2,7 +2,7 @@ from __future__ import annotations
 import json, math
 from typing import Dict
 import numpy as np
-from . import big
+from .big import
 from .qft_pca import fourier_fingerprint
 
 def _infer_dim(vectors_jsonl:str)->int:
