@@ -55,7 +55,10 @@ def build_interference_circuit(vec, n_qubits, theme_id: int = 0, pos: int = 0, b
             x[i1] *= np.cos(ang) + 1j * np.sin(ang)
 
     # 2. State prep
-    qc.append(StatePreparation(x), qr)
+# do angle encoding:
+    for i, amp in enumerate(x[:n_qubits]):
+        qc.ry(float(amp) * np.pi, qr[i])
+
 
     # 3. Spread with Hadamards
     qc.h(qr)

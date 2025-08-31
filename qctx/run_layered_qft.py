@@ -43,7 +43,7 @@ def main():
 
     # --- connect to IBM Brisbane ---
     service = QiskitRuntimeService(
-        channel="ibm_quantum",
+        channel="ibm_cloud",
         token=os.environ.get("IBM_CLOUD_API_KEY"),
         instance=os.environ.get("IBM_QUANTUM_CRN"),
     )
