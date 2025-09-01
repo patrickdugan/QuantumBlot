@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 
 # ---- paths ----
 EVIDENCE_PATH  = "evidence.json"
-COUNTS_PATH    = r"C:\projects\QuantumBlot\qctx\job_d2pr065poa4c73c94i9g_pub0_counts.json"
+COUNTS_PATH = "job_d2q45r5t2ras73bdnk40_pub0_counts.json"
 
 # ---- load embedding ----
 ev = json.load(open(EVIDENCE_PATH, "r"))

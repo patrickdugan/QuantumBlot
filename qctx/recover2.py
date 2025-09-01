@@ -33,7 +33,7 @@ service = QiskitRuntimeService(
 )
 
 # ---------- recover ----------
-job_id = os.environ.get("RECOVER_JOB_ID", "d2psqg494j0s73a458c0")
+job_id = os.environ.get("RECOVER_JOB_ID", "d2q45r5t2ras73bdnk40")
 job = service.job(job_id)
 print("Recovered job:", job.job_id(), "status:", job.status())
 

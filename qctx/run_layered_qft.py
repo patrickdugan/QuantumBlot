@@ -1,8 +1,7 @@
 # run_layered_qft.py
-import os, json, numpy as np
-from layered_qft import build_interference_circuit
+import os, json, numpy as np, math, re
 from pathlib import Path
-import re
+from layered_qft import build_interference_circuit, counts_to_band_signature
 
 # --- load IBM Quantum env ---
 def load_env_file(path: str):
@@ -37,10 +36,6 @@ def main():
     n_qubits = int(np.ceil(np.log2(len(amplitudes))))
     print(f"Prepared {len(amplitudes)} components → {n_qubits} qubits")
 
-    # --- build layered QFT circuit ---
-    qc = build_interference_circuit(amplitudes, n_qubits=n_qubits,
-                                    theme_id=2, pos=0)
-
     # --- connect to IBM Brisbane ---
     service = QiskitRuntimeService(
         channel="ibm_cloud",
@@ -49,20 +44,34 @@ def main():
     )
     backend = service.backend("ibm_brisbane")
 
+    # --- build layered QFT circuit (auto-transpiled for backend) ---
+    qc = build_interference_circuit(amplitudes,
+                                    n_qubits=n_qubits,
+                                    theme_id=2,
+                                    pos=0,
+                                    backend=backend)   # hardware-safe
+
+    # --- run job ---
     sampler = Sampler(backend)
     job = sampler.run([qc], shots=8192)
     result = job.result()
-    counts = result[0].data.meas.get_counts()
+
+    # SamplerV2 result is indexable
+    record = result[0]
+    qd = record.data   # QuasiDistribution mapping {BitArray: probability}
+
+    shots = 8192
+    counts = {str(k): int(float(v) * shots) for k, v in qd.items()}
 
     # --- save to JSON ---
-    out_path = "layered_qft_counts.json"
-    with open(out_path, "w", encoding="utf-8") as f:
-        json.dump(counts, f, indent=2)
-    print(f"Saved layered QFT counts → {out_path}")
-
-    # peek at top 20
-    for bitstr, cnt in sorted(counts.items(), key=lambda kv: kv[1], reverse=True)[:20]:
-        print(f"{bitstr}: {cnt}")
+    
+    for idx, rec in enumerate(result):
+        qd = rec.data
+        counts = {str(k): int(float(v) * shots) for k, v in qd.items()}
+        out_path = f"job_{job.job_id()}_pub{idx}_counts.json"
+        with open(out_path, "w", encoding="utf-8") as f:
+            json.dump(counts, f, indent=2)
+        print(f"Saved counts for pub {idx} → {out_path}")
 
 if __name__ == "__main__":
     main()

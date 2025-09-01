@@ -1,11 +1,10 @@
-# layered_qft.py
 """
 Layered QFT circuit builder + helpers.
 
 Pipeline:
   1. Pad input to 2^n
   2. RoPE-style positional phase (odd indices)
-  3. StatePreparation
+  3. Encode input (StatePreparation on simulators, angle encoding on hardware)
   4. Hadamards (spread amplitudes)
   5. QFT (no swaps)
   6. Theme-gated RZ rotations
@@ -14,13 +13,19 @@ Pipeline:
 """
 
 import numpy as np
-from qiskit import QuantumCircuit, QuantumRegister, ClassicalRegister
+from qiskit import QuantumCircuit, QuantumRegister, ClassicalRegister, transpile
 from qiskit.circuit.library import QFT, StatePreparation
 
 # ---------------------------------------------------------------------
 # Circuit builder
 # ---------------------------------------------------------------------
-def build_interference_circuit(vec, n_qubits, theme_id: int = 0, pos: int = 0, base: float = 10000.0):
+def build_interference_circuit(vec,
+                               n_qubits,
+                               theme_id: int = 0,
+                               pos: int = 0,
+                               base: float = 10000.0,
+                               backend=None,
+                               use_stateprep: bool = False):
     """
     Build a layered QFT circuit.
 
@@ -30,9 +35,11 @@ def build_interference_circuit(vec, n_qubits, theme_id: int = 0, pos: int = 0, b
         theme_id: Int seed for theme-specific RZ phase schedule.
         pos: Position index (for RoPE binding).
         base: RoPE base constant.
+        backend: Optional Qiskit backend — if provided, transpile for hardware.
+        use_stateprep: Force StatePreparation (only works on simulators).
 
     Returns:
-        QuantumCircuit with measurements.
+        QuantumCircuit (transpiled if backend is provided).
     """
     qr = QuantumRegister(n_qubits, "q")
     cr = ClassicalRegister(n_qubits, "c")
@@ -54,11 +61,14 @@ def build_interference_circuit(vec, n_qubits, theme_id: int = 0, pos: int = 0, b
         if i1 < L:
             x[i1] *= np.cos(ang) + 1j * np.sin(ang)
 
-    # 2. State prep
-# do angle encoding:
-    for i, amp in enumerate(x[:n_qubits]):
-        qc.ry(float(amp) * np.pi, qr[i])
-
+    # 2. Encode input
+    if use_stateprep and backend is None:
+        # Simulator path — exact amplitude encoding
+        qc.append(StatePreparation(x), qr)
+    else:
+        # Hardware path — angle encoding (safe)
+        for i, amp in enumerate(x[:n_qubits]):
+            qc.ry(float(np.real(amp)) * np.pi, qr[i])
 
     # 3. Spread with Hadamards
     qc.h(qr)
@@ -79,6 +89,11 @@ def build_interference_circuit(vec, n_qubits, theme_id: int = 0, pos: int = 0, b
 
     # 7. Measure
     qc.measure(qr, cr)
+
+    # --- Transpile if backend provided ---
+    if backend is not None:
+        qc = transpile(qc, backend=backend, optimization_level=1)
+
     return qc
 
 # ---------------------------------------------------------------------
