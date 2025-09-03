@@ -5,3 +5,5 @@ qctx/vectors.jsonl
 qctx/context/conversations.json
 qctx/vectors_pca_topk.npy.txt
 qctx/vectors_pca_topk.npy
+qctx/vectors_pca_topk.npy
+qctx/rope_hint.zip
