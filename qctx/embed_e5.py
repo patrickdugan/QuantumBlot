@@ -1,56 +1,66 @@
 import argparse
 import json
-import numpy as np
-from tqdm import tqdm
+from typing import List
 from sentence_transformers import SentenceTransformer
+import numpy as np
 
-def embed_texts(
-    texts, model_name="intfloat/e5-base-v2", batch_size=32, device="cuda"
-):
-    model = SentenceTransformer(model_name, device=device)
-    embeddings = model.encode(
-        texts,
-        batch_size=batch_size,
-        convert_to_numpy=True,
-        show_progress_bar=True,
-        normalize_embeddings=True,  # recommended for cosine similarity
-    )
-    return embeddings
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument("--input", required=True, help="JSONL with {id,text}")
-    parser.add_argument("--output-jsonl", required=True, help="Where to save embeddings")
-    parser.add_argument("--output-npy", help="Optional: save .npy array")
+    parser.add_argument("--input", required=True, help="Input file (.jsonl or .txt)")
+    parser.add_argument("--output-jsonl", required=True, help="Where to save embeddings JSONL")
+    parser.add_argument("--output-npy", required=True, help="Where to save embeddings NPY")
     parser.add_argument("--batch-size", type=int, default=32)
     args = parser.parse_args()
 
-    # 1. Load input JSONL
-    ids, texts = [], []
+    texts, meta = [], []
+    print(f"[INFO] Loading input: {args.input}")
+
     with open(args.input, "r", encoding="utf-8") as f:
-        for line in f:
-            obj = json.loads(line)
-            if "text" in obj and obj["text"].strip():
-                ids.append(obj.get("id"))
-                texts.append(obj["text"].strip())
+        for i, line in enumerate(f):
+            line = line.strip()
+            if not line:
+                continue
 
-    print(f"Loaded {len(texts)} texts from {args.input}")
+            if args.input.endswith(".jsonl"):
+                obj = json.loads(line)
+                text = obj.get("text", "")
+                out = {"id": obj.get("id", str(i)), "text": text}
+            else:
+                # Treat .txt lines as raw text
+                out = {"id": str(i), "text": line}
 
-    # 2. Embed
-    embeddings = embed_texts(texts, batch_size=args.batch_size)
+            texts.append(out["text"])
+            meta.append(out)
 
-    # 3. Save JSONL
-    with open(args.output_jsonl, "w", encoding="utf-8") as f:
-        for i, (id_, vec) in enumerate(zip(ids, embeddings)):
-            out = {"id": id_ or f"row-{i}", "vector": vec.tolist(), "text": texts[i]}
-            f.write(json.dumps(out) + "\n")
+    print(f"[INFO] Loaded {len(texts)} texts for embedding")
 
-    print(f"Saved JSONL embeddings to {args.output_jsonl}")
+    model = SentenceTransformer("intfloat/e5-base-v2")
 
-    # 4. Optionally save .npy
-    if args.output_npy:
-        np.save(args.output_npy, embeddings)
-        print(f"Saved raw embeddings to {args.output_npy}")
+    embeddings = model.encode(
+        texts,
+        batch_size=args.batch_size,
+        convert_to_numpy=True,
+        show_progress_bar=True,
+    )
+
+    print("[INFO] Writing JSONL and NPY outputs")
+    with open(args.output_jsonl, "w", encoding="utf-8") as f_out:
+        for i, emb in enumerate(embeddings):
+            obj = {
+                "id": meta[i]["id"],
+                "text": meta[i]["text"],
+                "embedding": emb.tolist(),
+            }
+            f_out.write(json.dumps(obj) + "\n")
+
+            # Log every 500 entries
+            if (i + 1) % 500 == 0:
+                print(f"[INFO] Written {i+1}/{len(embeddings)} embeddings")
+
+    np.save(args.output_npy, embeddings)
+    print(f"[INFO] Done. Saved {len(embeddings)} embeddings")
+
 
 if __name__ == "__main__":
     main()
