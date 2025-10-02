@@ -7,3 +7,7 @@ qctx/vectors_pca_topk.npy.txt
 qctx/vectors_pca_topk.npy
 qctx/vectors_pca_topk.npy
 qctx/rope_hint.zip
+qctx/vectors_pca_topk.npy
+qctx/conversations_bucketed.txt
+qctx/job_d2pr065poa4c73c94i9g_pub0_counts.zip
+qctx/vectors_pca_topk.npy
