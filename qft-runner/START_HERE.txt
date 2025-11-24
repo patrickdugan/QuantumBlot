@@ -1,0 +1,47 @@
+╔════════════════════════════════════════════════════════════════╗
+║                    🌊 QFT Runner                              ║
+║          Quantum Fourier Transform Pipeline Orchestrator      ║
+╠════════════════════════════════════════════════════════════════╣
+║                                                                ║
+║  📖 Start Reading:                                            ║
+║     1. INDEX.md - Project overview                            ║
+║     2. QUICKSTART.md - Quick commands                         ║
+║     3. README.md - Full documentation                         ║
+║                                                                ║
+║  ⚡ Quick Setup:                                              ║
+║     cp qblot.env.example qblot.env                            ║
+║     nano qblot.env  # Add IBM credentials                     ║
+║     chmod +x setup.sh && ./setup.sh                           ║
+║     source qblot.env                                          ║
+║                                                                ║
+║  🧪 Test It:                                                  ║
+║     make test                                                 ║
+║     node qft-runner.js status                                 ║
+║                                                                ║
+║  🚀 Use It:                                                   ║
+║     node qft-runner.js full --input data.txt --theme-id 2     ║
+║     make full INPUT=data.txt THEME=2                          ║
+║                                                                ║
+║  📚 Learn More:                                               ║
+║     make help                                                 ║
+║     node example-usage.js                                     ║
+║                                                                ║
+║  🎯 Key Files:                                                ║
+║     qft-runner.js - Main orchestrator                         ║
+║     Makefile - Convenient shortcuts                           ║
+║     example-usage.js - 10 code examples                       ║
+║                                                                ║
+║  💡 What This Does:                                           ║
+║     Wraps your Python QFT pipeline with a clean JS interface  ║
+║     Simplifies: embed → PCA → QFT → decode → analyze         ║
+║                                                                ║
+║  🔑 Requirements:                                             ║
+║     • Node.js 18+                                             ║
+║     • Python 3.8+                                             ║
+║     • IBM Quantum account                                     ║
+║     • Your Python scripts (qft_one.py, layered_qft.py, etc)  ║
+║                                                                ║
+╠════════════════════════════════════════════════════════════════╣
+║  Built for TradeLayer                                         ║
+║  MIT License                                                  ║
+╚════════════════════════════════════════════════════════════════╝

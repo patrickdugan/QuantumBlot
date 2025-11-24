@@ -1,0 +1,115 @@
+╔════════════════════════════════════════════════════════════════╗
+║              QFT Runner - Complete Package Contents            ║
+╠════════════════════════════════════════════════════════════════╣
+║                                                                ║
+║  📦 Total Files: 14                                           ║
+║  📊 Total Size: 76KB                                          ║
+║                                                                ║
+╠════════════════════════════════════════════════════════════════╣
+║  📖 DOCUMENTATION (5 files)                                   ║
+╠════════════════════════════════════════════════════════════════╣
+║  ✅ START_HERE.txt       Quick start guide (ASCII art)        ║
+║  ✅ FILE_GUIDE.txt        File organization reference         ║
+║  ✅ INDEX.md              Project overview & navigation       ║
+║  ✅ QUICKSTART.md         Command reference sheet             ║
+║  ✅ README.md             Comprehensive documentation         ║
+║  ✅ PROJECT_SUMMARY.md    Detailed project overview           ║
+║                                                                ║
+╠════════════════════════════════════════════════════════════════╣
+║  🚀 EXECUTABLE FILES (5 files)                                ║
+╠════════════════════════════════════════════════════════════════╣
+║  ✅ qft-runner.js         Main JavaScript orchestrator        ║
+║  ✅ qft-runner.ts         TypeScript version                  ║
+║  ✅ setup.sh              Installation script                 ║
+║  ✅ example-usage.js      10 usage examples                   ║
+║  ✅ Makefile              Command shortcuts                   ║
+║                                                                ║
+╠════════════════════════════════════════════════════════════════╣
+║  ⚙️ CONFIGURATION (3 files)                                   ║
+╠════════════════════════════════════════════════════════════════╣
+║  ✅ qblot.env.example     Environment template                ║
+║  ✅ package.json          Node.js dependencies                ║
+║  ✅ gitignore             Git ignore patterns                 ║
+║                                                                ║
+╠════════════════════════════════════════════════════════════════╣
+║  🎯 WHAT YOU GET                                              ║
+╠════════════════════════════════════════════════════════════════╣
+║                                                                ║
+║  ✨ Features:                                                 ║
+║     • TypeScript/JavaScript wrapper for Python QFT pipeline   ║
+║     • One-command full pipeline execution                     ║
+║     • Multi-theme analysis automation                         ║
+║     • Batch processing capabilities                           ║
+║     • Programmatic API for Node.js integration                ║
+║     • Comprehensive error handling                            ║
+║     • Status tracking & monitoring                            ║
+║                                                                ║
+║  🔧 Capabilities:                                             ║
+║     • Generate embeddings (E5/Qwen)                           ║
+║     • Run PCA dimensionality reduction                        ║
+║     • Execute QFT circuits on IBM Quantum                     ║
+║     • Decode quantum measurement results                      ║
+║     • Generate payload with RoPE hints                        ║
+║                                                                ║
+║  📊 Commands Available:                                       ║
+║     • embed   - Generate embeddings                           ║
+║     • run     - Execute QFT                                   ║
+║     • full    - Complete pipeline                             ║
+║     • status  - Check artifacts                               ║
+║                                                                ║
+║  🎨 Usage Modes:                                              ║
+║     • CLI: node qft-runner.js <command>                       ║
+║     • Make: make <target>                                     ║
+║     • API: import { QFTRunner } from './qft-runner.js'        ║
+║                                                                ║
+╠════════════════════════════════════════════════════════════════╣
+║  🚀 QUICK START                                               ║
+╠════════════════════════════════════════════════════════════════╣
+║                                                                ║
+║  1. Read START_HERE.txt for overview                          ║
+║  2. Copy qblot.env.example to qblot.env                       ║
+║  3. Edit qblot.env with IBM Quantum credentials               ║
+║  4. Run: chmod +x setup.sh && ./setup.sh                      ║
+║  5. Test: source qblot.env && make test                       ║
+║                                                                ║
+╠════════════════════════════════════════════════════════════════╣
+║  📚 LEARNING PATH                                             ║
+╠════════════════════════════════════════════════════════════════╣
+║                                                                ║
+║  Beginner:    START_HERE.txt → QUICKSTART.md                 ║
+║  Intermediate: INDEX.md → example-usage.js                    ║
+║  Advanced:    README.md → qft-runner.js source               ║
+║                                                                ║
+╠════════════════════════════════════════════════════════════════╣
+║  🔗 INTEGRATION                                               ║
+╠════════════════════════════════════════════════════════════════╣
+║                                                                ║
+║  Works with your Python scripts:                              ║
+║    • qft_one.py - Main pipeline orchestrator                  ║
+║    • layered_qft.py - Circuit builder                         ║
+║    • embed_e5.py - E5 embeddings                              ║
+║    • embed_qwen_api.py - Qwen embeddings                      ║
+║    • clean_chat.py - Chat history cleaner                     ║
+║    • decode_qft_hist.py - Result decoder (optional)           ║
+║    • emit_prompt.py - Payload generator (optional)            ║
+║                                                                ║
+║  Requires:                                                     ║
+║    • Node.js 18+                                              ║
+║    • Python 3.8+                                              ║
+║    • IBM Quantum account                                      ║
+║                                                                ║
+╠════════════════════════════════════════════════════════════════╣
+║  💼 TRADELAYER READY                                          ║
+╠════════════════════════════════════════════════════════════════╣
+║                                                                ║
+║  Built specifically for TradeLayer workflows:                 ║
+║    • Market signal quantum analysis                           ║
+║    • Pattern discovery in trading data                        ║
+║    • Multi-dimensional correlation analysis                   ║
+║    • Real-time interference pattern monitoring                ║
+║                                                                ║
+║  See example-usage.js #8 for TradeLayer integration           ║
+║                                                                ║
+╠════════════════════════════════════════════════════════════════╣
+║  Built for TradeLayer • MIT License                           ║
+╚════════════════════════════════════════════════════════════════╝

@@ -1,0 +1,37 @@
+{
+  "name": "qft-runner",
+  "version": "1.0.0",
+  "description": "TypeScript orchestrator for Quantum Fourier Transform pipeline",
+  "main": "qft-runner.js",
+  "type": "module",
+  "scripts": {
+    "build": "tsc qft-runner.ts --module nodenext --moduleResolution nodenext --target es2022 --outDir dist",
+    "start": "node --loader tsx qft-runner.ts",
+    "embed": "node --loader tsx qft-runner.ts embed",
+    "run": "node --loader tsx qft-runner.ts run",
+    "full": "node --loader tsx qft-runner.ts full",
+    "status": "node --loader tsx qft-runner.ts status"
+  },
+  "bin": {
+    "qft": "./qft-runner.js"
+  },
+  "keywords": [
+    "quantum",
+    "qft",
+    "embeddings",
+    "ibm-quantum",
+    "qiskit"
+  ],
+  "author": "TradeLayer",
+  "license": "MIT",
+  "dependencies": {
+    "@types/node": "^20.0.0"
+  },
+  "devDependencies": {
+    "tsx": "^4.7.0",
+    "typescript": "^5.3.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

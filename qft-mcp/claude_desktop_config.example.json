@@ -1,0 +1,14 @@
+{
+  "mcpServers": {
+    "personal-lexicon": {
+      "command": "node",
+      "args": [
+        "/Users/yourname/qft-lexicon-mcp/qft-lexicon-mcp.js"
+      ],
+      "env": {
+        "LEXICON_INDEX": "/Users/yourname/qft-lexicon-mcp/lexicon_index.json",
+        "CORPUS_PATH": "/Users/yourname/Documents/papers"
+      }
+    }
+  }
+}

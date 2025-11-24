@@ -1,0 +1,55 @@
+QFT Runner - File Guide
+═══════════════════════════════════════════════════════════
+
+📖 DOCUMENTATION (Read these first)
+────────────────────────────────────────────────────────────
+START_HERE.txt      ← Read this first! Quick overview
+INDEX.md            ← Project structure & navigation
+QUICKSTART.md       ← Quick command reference
+README.md           ← Full documentation
+PROJECT_SUMMARY.md  ← Detailed project overview
+
+⚙️ CONFIGURATION
+────────────────────────────────────────────────────────────
+qblot.env.example   ← Template for IBM credentials
+                      Copy to qblot.env and edit
+
+🚀 MAIN FILES (Use these)
+────────────────────────────────────────────────────────────
+qft-runner.js       ← Main JavaScript runner (recommended)
+qft-runner.ts       ← TypeScript version (optional)
+setup.sh            ← Automated installation script
+Makefile            ← Convenient command shortcuts
+
+📚 LEARNING RESOURCES
+────────────────────────────────────────────────────────────
+example-usage.js    ← 10 programmatic examples
+                      Run: node example-usage.js <1-10>
+
+📦 PACKAGE FILES
+────────────────────────────────────────────────────────────
+package.json        ← Node.js dependencies
+gitignore           ← Git ignore patterns (rename to .gitignore)
+
+═══════════════════════════════════════════════════════════
+
+QUICK START:
+  1. Read START_HERE.txt
+  2. Copy qblot.env.example to qblot.env
+  3. Edit qblot.env with IBM credentials
+  4. Run: ./setup.sh
+  5. Test: make test
+
+QUICK COMMANDS:
+  make help          Show all commands
+  make status        Check pipeline status
+  make test          Run test pipeline
+  
+  node qft-runner.js           Show help
+  node qft-runner.js status    Check status
+  node example-usage.js        Show examples
+
+DOCUMENTATION FLOW:
+  START_HERE.txt → INDEX.md → QUICKSTART.md → README.md
+
+═══════════════════════════════════════════════════════════

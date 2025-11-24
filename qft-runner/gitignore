@@ -1,0 +1,67 @@
+# QFT Runner - Git Ignore
+
+# Environment & Secrets
+qblot.env
+.env
+*.key
+
+# Node
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+package-lock.json
+yarn.lock
+
+# TypeScript
+*.tsbuildinfo
+dist/
+build/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg-info/
+.ipynb_checkpoints
+
+# QFT Outputs
+qft_*.npy
+qft_*.json
+vectors_*.npy
+*_e5.npy
+*_e5.jsonl
+*_qwen.npy
+*_qwen.jsonl
+decoded_*.json
+request_*.json
+conversations_bucketed.txt
+theme_*_counts.json
+
+# Results
+results/
+qft_output/
+*.counts.json
+
+# Logs
+*.log
+nohup.out
+
+# OS
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~
+
+# IDEs
+.vscode/
+.idea/
+*.sublime-*
+
+# Test data
+test_*.txt
+test_*.npy
+test_*.jsonl
