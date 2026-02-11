@@ -1,0 +1,5 @@
+interface:
+  display_name: "QFT Experiments"
+  short_description: "Run safe QFT experiments with RAM-aware batching"
+  default_prompt: "Use $qft-experiments to preflight and run a memory-bounded test in C:\\projects\\TRMStoryworld."
+

@@ -10,6 +10,29 @@ TypeScript/JavaScript orchestrator for your Quantum Fourier Transform pipeline. 
 - 🔧 **Flexible CLI**: Run individual steps or full workflow
 - ✅ **Status Tracking**: Monitor pipeline artifacts and configuration
 
+## Semantic Codex (SC1028)
+
+This runner emits explicit chunk-level telemetry records with:
+
+- `run_id`, `episode_id`, `chunk_id`
+- `obs_hash`, `action_hash`
+- `sc1028_b64`, `sc1028_symbols`, `sc1028_version`
+- scalar metrics (`rss_mb`, `entropy`, `topk_gap`, ...)
+
+Reference files:
+
+- `docs/schema_sc1028.md`
+- `sc1028_symbols.py`
+- `sc1028.py`
+- `analyze_sc1028.py`
+- `semantic_proof.py`
+
+Attestation modes:
+
+- `crypto` (default): Merkle root over chunk records + optional HMAC signature from `SEMANTIC_ATTESTATION_KEY`
+- `spectral`: explicit PCA -> FFT signature over a sidecar trace artifact (`.npy`)
+- `both`: run crypto and spectral attestation in one pass
+
 ## Quick Start
 
 ### 1. Setup Environment
@@ -46,7 +69,50 @@ npx tsx qft-runner.ts full --input data.txt --theme-id 2 --layered
 npm run full -- --input data.txt --theme-id 2
 ```
 
+### Memory-safe defaults
+
+The runner now enforces operational guardrails by default:
+
+- `--lockfile run.lock`
+- `--telemetry_out sc1028_telemetry.jsonl`
+- `--max_steps 32`
+- `--max_episodes 1`
+- `--rss_threshold 0.85`
+
+Example:
+
+```bash
+node qft-runner.js full \
+  --input data.txt \
+  --theme-id 2 \
+  --max_steps 32 \
+  --max_episodes 1 \
+  --rss_threshold 0.85 \
+  --telemetry_out artifacts/sc1028_telemetry.jsonl
+```
+
 ## Commands
+
+### Runtime guardrail options
+
+All commands accept:
+
+- `--lockfile <path>`: single-instance lockfile path
+- `--telemetry_out <path>`: SC1028 JSONL sidecar output
+- `--max_steps <n>`: max chunk steps per episode
+- `--max_episodes <n>`: max episodes per run
+- `--episodes <n>`: number of episodes to run for `full`
+- `--rss_threshold <f>`: memory watchdog threshold in `[0.80, 0.95]`
+- `--seed <n>`: optional run seed tag (telemetry metadata)
+- `--attestation_mode <off|crypto|spectral|both>`: explicit reasoning attestation mode
+- `--attestation_out <path>`: attestation JSON sidecar
+- `--attestation_key_env <env>`: env var for crypto attestation key
+- `--attestation_components <n>`: PCA components for spectral mode
+- `--attestation_frequency <n>`: spectral signature frequency
+- `--attestation_strength <f>`: spectral signature strength
+- `--attestation_seed <n>`: spectral signature seed
+- `--spectral_trace_out <path>`: explicit spectral trace artifact path
+- `--provenance_tag`: explicit visible provenance block
 
 ### `embed` - Generate Embeddings
 
@@ -251,6 +317,39 @@ Required Python scripts (included in your upload):
 Python packages:
 ```bash
 pip install numpy qiskit qiskit-ibm-runtime sentence-transformers requests
+```
+
+## Offline SC1028 Analysis
+
+Rollout and analysis are intentionally separate phases.
+
+```bash
+python analyze_sc1028.py artifacts/sc1028_telemetry.jsonl --out artifacts/sc1028_analysis.json
+```
+
+Outputs:
+
+- primitive frequency
+- primitive transition matrix
+- divergence across seeds
+- early-failure signatures
+
+## Reasoning Attestation
+
+Generate explicit cryptographic and/or spectral attestation from telemetry:
+
+```bash
+node qft-runner.js status \
+  --telemetry_out artifacts/sc1028_telemetry.jsonl \
+  --attestation_mode both \
+  --attestation_out artifacts/semantic_attestation.json \
+  --provenance_tag
+```
+
+Verify attestation offline:
+
+```bash
+python semantic_proof.py verify --attestation artifacts/semantic_attestation.json
 ```
 
 ## Troubleshooting

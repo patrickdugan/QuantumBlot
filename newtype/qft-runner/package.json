@@ -6,11 +6,12 @@
   "type": "module",
   "scripts": {
     "build": "tsc qft-runner.ts --module nodenext --moduleResolution nodenext --target es2022 --outDir dist",
-    "start": "node --loader tsx qft-runner.ts",
-    "embed": "node --loader tsx qft-runner.ts embed",
-    "run": "node --loader tsx qft-runner.ts run",
-    "full": "node --loader tsx qft-runner.ts full",
-    "status": "node --loader tsx qft-runner.ts status"
+    "start": "node qft-runner.js",
+    "embed": "node qft-runner.js embed",
+    "run": "node qft-runner.js run",
+    "full": "node qft-runner.js full",
+    "status": "node qft-runner.js status",
+    "test": "node --test tests/telemetry_writer.test.js && python -m unittest discover -s tests -p \"test_*.py\""
   },
   "bin": {
     "qft": "./qft-runner.js"
