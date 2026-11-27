@@ -8,6 +8,7 @@ _EXPORTS = {
     'shell_probabilities': 'shell_spectrum', 'counts_shell_probabilities': 'shell_spectrum',
     'shell_coordinates': 'shell_spectrum', 'shell_transform': 'shell_spectrum',
     'ShellIndex': 'shell_spectrum',
+    'LearnedScreen': 'learned_screen', 'fit_basis': 'learned_screen',
 }
 __all__ = list(_EXPORTS)
 
