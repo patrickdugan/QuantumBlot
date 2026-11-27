@@ -38,6 +38,17 @@ class BatchScreen:
     @property
     def index_bytes(self):return self.u.nbytes+self.c.nbytes+self.res.nbytes
 
+    def _query_projection(self, z, rank):
+        p=z@self.u[:,:rank]
+        qr=np.sqrt(np.maximum(0,1-np.sum(p*p,axis=1)+self.slack))
+        return p, qr
+
+    def _projection_panel(self, a, end, rank, query):
+        return self.c[a:end,:rank]@query[0].T
+
+    def _uncertainty(self, a, end, ri, query):
+        return self.res[a:end,ri,None]*query[1][None,:]
+
     def search(self, queries, k=20, *, rank=32, mode='auto', tile_rows=16384,
                query_block=32, group=8, pilot=64):
         """Full, per-query gather, or coalesced union scoring with exact reranking.
@@ -86,13 +97,13 @@ class BatchScreen:
                     for j in range(b):update(j,ii,v[:,j])
                 stats['candidate_pairs']+=m*b
             else:
-                p=z@self.u[:,:rank];qr=np.sqrt(np.maximum(0,1-np.sum(p*p,axis=1)+self.slack));stats['query_coordinates']+=b*d*rank
+                query=self._query_projection(z,rank);stats['query_coordinates']+=b*d*rank
                 cache=None;thresholds=np.full(b,-np.inf)
                 seeds=[(np.empty(0,dtype=np.int64),np.empty(0)) for _ in z]
                 if mode!='lower':
                     seeds=[(np.empty(0,dtype=np.int64),np.empty(0)) for _ in z];cache=None
                     for a in range(0,m,tile_rows):
-                        v=self.c[a:a+tile_rows,:rank]@p.T;ii=np.arange(a,a+len(v))
+                        v=self._projection_panel(a,min(m,a+tile_rows),rank,query);ii=np.arange(a,a+len(v))
                         stats['projection_pairs']+=v.size;stats['max_score_cells']=max(stats['max_score_cells'],v.size)
                         if tile_rows>=m:cache=v
                         for j in range(b):
@@ -103,10 +114,10 @@ class BatchScreen:
                         stats['seed_pairs']+=len(ii);stats['exact_pairs']+=len(ii)
                 for a in range(0,m,tile_rows):
                     end=min(m,a+tile_rows);l=end-a
-                    v=cache if cache is not None else self.c[a:end,:rank]@p.T
+                    v=cache if cache is not None else self._projection_panel(a,end,rank,query)
                     if cache is None:stats['projection_pairs']+=v.size
                     stats['max_score_cells']=max(stats['max_score_cells'],v.size)
-                    e=self.res[a:end,ri,None]*qr[None,:]
+                    e=self._uncertainty(a,end,ri,query)
                     if mode=='lower' and l>=k:
                         lower=np.partition(v-e,l-k,axis=0)[l-k]-2*self.slack
                         thresholds=np.maximum(thresholds,lower)

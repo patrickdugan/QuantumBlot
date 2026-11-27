@@ -13,6 +13,8 @@ _EXPORTS = {
     'NativeProgressiveScreen': 'native_screen',
     'RankPolicy': 'rank_policy', 'fit_policy': 'rank_policy',
     'BatchScreen': 'batch_screen',
+    'QuantizedBatchScreen': 'quantized_screen',
+    'NativeInt8Screen': 'quantized_screen',
 }
 __all__ = list(_EXPORTS)
 
