@@ -9,6 +9,9 @@ _EXPORTS = {
     'shell_coordinates': 'shell_spectrum', 'shell_transform': 'shell_spectrum',
     'ShellIndex': 'shell_spectrum',
     'LearnedScreen': 'learned_screen', 'fit_basis': 'learned_screen',
+    'ProgressiveScreen': 'progressive_screen',
+    'NativeProgressiveScreen': 'native_screen',
+    'RankPolicy': 'rank_policy', 'fit_policy': 'rank_policy',
 }
 __all__ = list(_EXPORTS)
 

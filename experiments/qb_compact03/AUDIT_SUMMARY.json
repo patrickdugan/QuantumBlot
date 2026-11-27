@@ -1,0 +1,117 @@
+{
+  "scope": "CPU_OPT_IN_EXACT_SCORE_SCREENING_CONTROLS",
+  "tests": {
+    "passed": 106,
+    "skipped": 3
+  },
+  "held_out_queries": 1199,
+  "development_queries": 642,
+  "screened_ranking_matches": 8633,
+  "prefix_bound_checks": 54159856,
+  "max_bound_or_monotonicity_violation": 0,
+  "max_score_error": 6.661338147750939e-16,
+  "numpy": {
+    "cohorts": 13,
+    "queries": 671,
+    "matches": 4697,
+    "selected_speedup": {
+      "centroid": 4.598,
+      "subspace": 4.77,
+      "heterogeneous": 3.233,
+      "dense": 1,
+      "digits": 1
+    },
+    "progressive_early_speedup": {
+      "centroid": 3.746,
+      "subspace": 2.274,
+      "heterogeneous": 2.383,
+      "dense": 0.567,
+      "digits": 0.264
+    },
+    "heterogeneous": {
+      "fixed64_coordinate_ratio": 0.1444,
+      "progressive_early_coordinate_ratio": 0.058
+    }
+  },
+  "native": {
+    "cohorts": 5,
+    "queries": 240,
+    "matches": 3360,
+    "heterogeneous_speedup": 2.733,
+    "heterogeneous_numpy_progressive_speedup": 2.238,
+    "heterogeneous_coordinate_ratio": 0.0655
+  },
+  "policy": {
+    "queries": 288,
+    "matches": 576,
+    "roots": [
+      58601,
+      58602,
+      58603
+    ],
+    "dense_choice": "full in all three",
+    "heterogeneous": [
+      {
+        "root": 58601,
+        "threshold": 0.6490391201442104,
+        "rank16": 27,
+        "rank128": 21,
+        "static_mean_ms": 0.63112027,
+        "adaptive_mean_ms": 0.50707356,
+        "speedup": 1.24463257
+      },
+      {
+        "root": 58602,
+        "threshold": 0.6675676657934682,
+        "rank16": 27,
+        "rank128": 21,
+        "static_mean_ms": 0.70177312,
+        "adaptive_mean_ms": 0.61227629,
+        "speedup": 1.14617067
+      },
+      {
+        "root": 58603,
+        "threshold": 0.6587890771426435,
+        "rank16": 28,
+        "rank128": 20,
+        "static_mean_ms": 0.63608479,
+        "adaptive_mean_ms": 0.49364071,
+        "speedup": 1.28855822
+      }
+    ]
+  },
+  "memory_example": {
+    "full_rows_bytes": 33554432,
+    "extra_projection_index_bytes": 9175040
+  },
+  "source_blobs": {
+    "qctx/progressive_screen.py": "2672cf9a927751dafddf1f295c401c9f5021ab38",
+    "qctx/native_screen.py": "282cc66d12c07ab2296526b1ffcaa423efe57d46",
+    "qctx/rank_policy.py": "002f48b4d6e52b634b9f2c79dcda37c174d47638",
+    "qctx/__init__.py": "a337be02fd6611b5a824016c5986d1e0dc516138",
+    "native/progressive_scan.cpp": "1206f80ef79b5c77202aa7f18218c9e8b480584d",
+    "experiments/qb_compact03/benchmark.py": "ba098e05d8806a4cebf40c816b576bc47dd3ba4c",
+    "experiments/qb_compact03/benchmark_policy.py": "65ca5b34ca8adf3f8354f29c42a23965739bc4d8",
+    "experiments/qb_compact03/tests/test_native.py": "d6397a758244399d31c4c56d72e025b807e7d38c",
+    "experiments/qb_compact03/tests/test_policy.py": "819bd1390722c18b6cf2db3efd34794356dac671",
+    "experiments/qb_compact03/tests/test_progressive.py": "a6bcfb24a203f037a44e4015e565d915353b9c7d"
+  },
+  "archive_sha256": "da2702b51632dbdc1fae67ccf4d5d0dc5e05d9bcb6dd4b560e41097ca604fc6a",
+  "receipt_sha256": {
+    "AUDIT_58401_centroid.json": "c00add7037a25d1d842bc7b2883ba11fb72a9084d407403771bc0dc33bb84d64",
+    "AUDIT_58401_dense.json": "a88a2252263ee93d72d95848ed56e7dc7bd5ebb7c343a8cef626e96bce461f6f",
+    "AUDIT_58401_heterogeneous.json": "ca7e310ba1ff8294761ed89a7eb0c733842f40c22b18301412d007be9c01b3ba",
+    "AUDIT_58401_subspace.json": "f39e1317971f7d6c63c88fac88cbbe8631af7a292a80961e09c6fac255544f3e",
+    "AUDIT_58402.json": "f3054fff57e663e4091395c3c5a475040765eb828eeafb5ecde72785525d0a62",
+    "AUDIT_58403.json": "8468eb861246c98ad8a892cb0cbc460b53c053913425a59d7a5d179e57cedf29",
+    "AUDIT_58501_centroid_native.json": "11683b8ccaf0845069a54ba1dc171f7461d70e4d10fb3f5fa28d42665f782d45",
+    "AUDIT_58501_dense_native.json": "21874d375d7fe216dadd97c32c58061d51e146e172f69108854762810853e9ef",
+    "AUDIT_58501_heterogeneous_native.json": "f37ce72617d5f70d2762d08ca88f0ff883e8b8c0d6e2636cdc6c997fcf900243",
+    "AUDIT_58501_subspace_native.json": "5a051e34825e697f5e78da5b404b5d8912b17a03088f2a8078f3c580298f68f1",
+    "AUDIT_58502_heterogeneous_native.json": "9d75719218cccf15a3d1adc779a92c0cfe000f8ba53d2af23fac00868870aff7",
+    "AUDIT_digits.json": "0cdc4aecc2248efecb1c9691e092d3c0a0920cfa6f5104f3410e6b81906fb317",
+    "POLICY_58601.json": "e76062a5bc4984549c4b81a03499bbd663353982e7460e605f27f99e3f88d4fb",
+    "POLICY_58602.json": "982407fb101274c527382afd31b3e2a04d6d6590d4c002b58ef0276a0af4b5cd",
+    "POLICY_58603.json": "be479b110bcc07f699da0d431e738c4e5f8e692a8dc5011db65e931a545bf78d"
+  }
+}
