@@ -30,6 +30,24 @@ data/
 
 ---
 
+## Optional CPU Fourier-shell screening (QB-COMPACT-01)
+
+`qctx.shell_spectrum` computes additive-order Fourier energy without an FFT, with
+no symmetry assumption on the input vector. The new shell descriptor is distinct
+from existing contiguous FFT bands. It can aggregate measured counts with an
+explicit bit order, or provide an opt-in upper-bound screen before cosine
+reranking. The dense synthetic control shows no screening benefit, so the
+existing retrieval default is unchanged.
+
+```bash
+python -m qctx.shell_spectrum embeddings.npy
+python -m qctx.shell_spectrum embeddings.npy --query query.npy --k 20
+```
+
+Vectors must be finite, nonzero and explicitly padded to a power of two. The
+screen retains the original normalized vectors for exact-score reranking;
+`--no-screen` scans all rows. See [benchmark and proofs](experiments/qb_compact01/README.md).
+
 ## 🚀 Installation
 ```bash
 git clone https://github.com/YOURNAME/qft-probes

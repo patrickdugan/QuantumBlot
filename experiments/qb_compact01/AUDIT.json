@@ -1,0 +1,80 @@
+{
+  "scope": "SYNTHETIC_CPU_ONLY",
+  "python": "3.13.5 (main, Jul 15 2026, 20:25:40) [GCC 14.2.0]",
+  "numpy": "2.3.5",
+  "machine": "x86_64",
+  "arithmetic": [
+    {
+      "n": 256,
+      "batch": 64,
+      "profiles": 576,
+      "fold_ms": 0.179322,
+      "rfft_ms": 0.091204,
+      "max_abs_error": 3.885780586188048e-16
+    },
+    {
+      "n": 1024,
+      "batch": 64,
+      "profiles": 704,
+      "fold_ms": 0.496516,
+      "rfft_ms": 0.312771,
+      "max_abs_error": 7.771561172376096e-16
+    },
+    {
+      "n": 4096,
+      "batch": 64,
+      "profiles": 832,
+      "fold_ms": 4.579461,
+      "rfft_ms": 1.634208,
+      "max_abs_error": 1.2212453270876722e-15
+    },
+    {
+      "n": 16384,
+      "batch": 64,
+      "profiles": 960,
+      "fold_ms": 12.547835,
+      "rfft_ms": 7.709596,
+      "max_abs_error": 2.3869795029440866e-15
+    },
+    {
+      "n": 65536,
+      "batch": 64,
+      "profiles": 1088,
+      "fold_ms": 53.797023,
+      "rfft_ms": 41.116447,
+      "max_abs_error": 5.773159728050814e-15
+    }
+  ],
+  "retrieval": [
+    {
+      "mode": "dense",
+      "n": 1024,
+      "corpus": 4096,
+      "queries": 32,
+      "k": 20,
+      "matched_queries": 32,
+      "median_evaluated": 4096.0,
+      "min_evaluated": 4096,
+      "max_evaluated": 4096,
+      "median_screen_ms": 3.668366,
+      "median_full_blas_ms": 1.7055444999999998,
+      "max_score_error": 7.771561172376096e-16,
+      "median_invariant_projection_loss": 0.9890874194474815
+    },
+    {
+      "mode": "single_shell",
+      "n": 1024,
+      "corpus": 4096,
+      "queries": 32,
+      "k": 20,
+      "matched_queries": 32,
+      "median_evaluated": 448.0,
+      "min_evaluated": 384,
+      "max_evaluated": 448,
+      "median_screen_ms": 0.876007,
+      "median_full_blas_ms": 1.71122,
+      "max_score_error": 7.771561172376096e-16,
+      "median_invariant_projection_loss": 0.9753313640025985
+    }
+  ]
+}

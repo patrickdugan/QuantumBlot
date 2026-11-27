@@ -1,6 +1,20 @@
-from .loader import slurp_text, preprocess_markdown, slice_bytes
-from .qft_pca import fourier_fingerprint
-from .dimred import pca_project
-from .embeddings import encode_texts
-from .motifs import pull_motifs
-__all__=['slurp_text','preprocess_markdown','slice_bytes','fourier_fingerprint','pca_project','encode_texts','pull_motifs']
+"""QCTX exports, loaded on demand so NumPy-only probes need no IBM SDK."""
+from importlib import import_module
+
+_EXPORTS = {
+    'slurp_text': 'loader', 'preprocess_markdown': 'loader', 'slice_bytes': 'loader',
+    'fourier_fingerprint': 'qft_pca', 'pca_project': 'dimred',
+    'encode_texts': 'embeddings', 'pull_motifs': 'motifs',
+    'shell_probabilities': 'shell_spectrum', 'counts_shell_probabilities': 'shell_spectrum',
+    'shell_coordinates': 'shell_spectrum', 'shell_transform': 'shell_spectrum',
+    'ShellIndex': 'shell_spectrum',
+}
+__all__ = list(_EXPORTS)
+
+
+def __getattr__(name):
+    if name not in _EXPORTS:
+        raise AttributeError(name)
+    value = getattr(import_module(f'.{_EXPORTS[name]}', __name__), name)
+    globals()[name] = value
+    return value
