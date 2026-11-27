@@ -15,6 +15,7 @@ _EXPORTS = {
     'BatchScreen': 'batch_screen',
     'QuantizedBatchScreen': 'quantized_screen',
     'NativeInt8Screen': 'quantized_screen',
+    'DiskScreen': 'disk_screen', 'build_store': 'disk_screen',
 }
 __all__ = list(_EXPORTS)
 

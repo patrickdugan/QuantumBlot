@@ -1,0 +1,245 @@
+{
+  "scope": "SYNTHETIC_CPU_DISK_BACKED",
+  "new_tests_passed": 9,
+  "combined_tests_passed": 31,
+  "held_out_queries": 120,
+  "development_queries": 40,
+  "held_out_ranking_matches": 3024,
+  "held_out_screening_ranking_matches": 2592,
+  "development_matches": 648,
+  "max_score_error": 0,
+  "backing_bytes": 67108864,
+  "batches": [
+    1,
+    8,
+    24
+  ],
+  "main": [
+    {
+      "seed": 58911,
+      "family": "centroid",
+      "rank": 32,
+      "index_bytes": 9895936,
+      "chosen": [
+        "cascade_gap2",
+        "mmap",
+        "mmap"
+      ],
+      "warm_mmap_ms": [
+        78.8265,
+        34.8426,
+        26.1445
+      ],
+      "warm_cascade_ms": [
+        60.1,
+        60.4,
+        39.6
+      ],
+      "warm_selected_b1_ms": 54.871,
+      "warm_cascade_requested_bytes": [
+        3198976,
+        3198976,
+        3170304
+      ],
+      "cold_cascade_os_read_bytes": [
+        3211264,
+        3416064,
+        3690496
+      ],
+      "cold_mmap_os_read_bytes": [
+        67108864,
+        67108864,
+        67108864
+      ],
+      "cold_cascade_ms": [
+        216.9909,
+        189.4057,
+        224.6951
+      ],
+      "cold_mmap_ms": [
+        154.3525,
+        45.9034,
+        38.5872
+      ],
+      "code_pairs": [
+        16397,
+        122888,
+        289944
+      ],
+      "read_calls": [
+        779,
+        762,
+        737
+      ]
+    },
+    {
+      "seed": 58912,
+      "family": "mixed",
+      "rank": 64,
+      "index_bytes": 11075584,
+      "chosen": [
+        "mmap",
+        "mmap",
+        "mmap"
+      ],
+      "warm_mmap_ms": [
+        81.5785,
+        33.3852,
+        35.1522
+      ],
+      "warm_cascade_ms": [
+        120.1,
+        74.7,
+        62.5
+      ],
+      "warm_cascade_requested_bytes": [
+        3014656,
+        3006464,
+        2961408
+      ],
+      "cold_cascade_os_read_bytes": [
+        2981888,
+        3080192,
+        3477504
+      ],
+      "cold_mmap_os_read_bytes": [
+        67108864,
+        67108864,
+        67108864
+      ],
+      "cold_cascade_ms": [
+        242.8539,
+        220.7526,
+        172.499
+      ],
+      "cold_mmap_ms": [
+        99.2263,
+        48.4832,
+        31.9031
+      ],
+      "code_pairs": [
+        139480,
+        501488,
+        722112
+      ],
+      "read_calls": [
+        736,
+        728,
+        703
+      ]
+    },
+    {
+      "seed": 58913,
+      "family": "dense",
+      "rank": 32,
+      "index_bytes": 9895936,
+      "chosen": [
+        "mmap",
+        "mmap",
+        "mmap"
+      ],
+      "warm_mmap_ms": [
+        81.7635,
+        42.6699,
+        26.4703
+      ],
+      "warm_cascade_ms": [
+        308.2,
+        98.2,
+        75.4
+      ],
+      "warm_cascade_requested_bytes": [
+        5345280,
+        5287936,
+        5111808
+      ],
+      "cold_cascade_os_read_bytes": [
+        5242880,
+        5611520,
+        6529024
+      ],
+      "cold_mmap_os_read_bytes": [
+        67108864,
+        67108864,
+        67108864
+      ],
+      "cold_cascade_ms": [
+        502.9195,
+        296.6999,
+        249.7935
+      ],
+      "cold_mmap_ms": [
+        93.6867,
+        40.9076,
+        30.3832
+      ],
+      "code_pairs": [
+        786432,
+        786432,
+        786432
+      ],
+      "read_calls": [
+        1301,
+        1256,
+        1155
+      ]
+    }
+  ],
+  "io_followup": [
+    {
+      "seed": 58914,
+      "family": "centroid",
+      "chosen": [
+        "cascade_w1_g64",
+        "cascade_w4_g16",
+        "mmap"
+      ],
+      "selected_ms": [
+        179.1826,
+        127.7481,
+        122.1487
+      ],
+      "mmap_ms": [
+        115.3809,
+        64.3172,
+        122.1487
+      ]
+    },
+    {
+      "seed": 58915,
+      "family": "mixed",
+      "chosen": [
+        "cascade_w4_g16",
+        "cascade_w1_g64",
+        "mmap"
+      ],
+      "selected_ms": [
+        221.3495,
+        257.0498,
+        31.6904
+      ],
+      "mmap_ms": [
+        114.5997,
+        58.8027,
+        31.6904
+      ]
+    }
+  ],
+  "source_blobs": {
+    "qctx/disk_screen.py": "ff9f07f3f65349f09fda4e47fa1d3f96acd80a37",
+    "qctx/__init__.py": "e37a62661047980f01eb0e48dec8bf5e35900373",
+    "experiments/qb_compact06/benchmark.py": "93c1393cf3dbcabd4f98498258ff35b931565dd4",
+    "experiments/qb_compact06/synthetic_reference.py": "765f7607cfa06394770a33358306e38847df0910",
+    "experiments/qb_compact06/io_followup.py": "88ee4e6adb30234c6b73d5dd54905e78dd1c8402",
+    "experiments/qb_compact06/tests/test_disk.py": "5a3a1355077fa17c32f09b60b9a8f7b7452e8f04"
+  },
+  "receipt_sha256": {
+    "centroid_58911.json": "affc492341edbdf96a1b1e1089a4009ad630b646791705bcde0d09392c7aa9a9",
+    "mixed_58912.json": "19eeead559e558e3099f8adeba7e2092831ef41c4857d55ed1db64db6ecc2640",
+    "dense_58913.json": "6dfc4afba252c9efc831b9cd29ec9fff70857241a3005127c4a478a9b3b69e77",
+    "io_58914.json": "8e1499efb8915a675f9fdba175254edea1ef0b780adf396bd8fcd1e37156e465",
+    "io_58915.json": "213ef948c711e14f8aabf45237af31b347ba7d69167d7096d5a661a3c2870897"
+  },
+  "archive_sha256": "f016e978fe8d346548b311e75972a545be34994b453652cc1d13e586cb95f9bb",
+  "note": "Summary rounded latency fields; complete raw receipts in local archive. Main sequential receipts precede optional parallel reads and source-map verification. No physical SSD identification."
+}
