@@ -1,0 +1,79 @@
+{
+  "scope": "SYNTHETIC_CPU_ONLY",
+  "tests_passed": 8,
+  "held_out_queries": 112,
+  "development_queries": 56,
+  "query_setting_pairs": 528,
+  "screened_ranking_matches": 3504,
+  "max_score_error": 9.992007221626409e-16,
+  "main": {
+    "seed": 58701,
+    "family": "centroid",
+    "corpus": 16384,
+    "dimension": 512,
+    "test": 64,
+    "batches": [
+      1,
+      8,
+      32
+    ],
+    "mixed_selected": [
+      "gather32",
+      "gather32",
+      "auto32"
+    ],
+    "mixed_full_ms": [
+      183.50566499998422,
+      76.2464350002574,
+      38.730669999949896
+    ],
+    "mixed_selected_ms": [
+      56.75619549992916,
+      37.763980500130856,
+      34.094536000111475
+    ],
+    "mixed_speedup": [
+      3.233227022769933,
+      2.019025377899271,
+      1.1359787973012234
+    ],
+    "coordinate_ratio": 0.07797622680664062,
+    "exact_pair_ratio": 0.013523101806640625,
+    "index_bytes": 17825792,
+    "corpus_bytes": 67108864
+  },
+  "quick": {
+    "seed": 58703,
+    "corpus": 8192,
+    "test_per_family": 16,
+    "tile": 4096,
+    "batches": [
+      1,
+      8,
+      16
+    ],
+    "dense_selected": "full",
+    "mixed_selected": "full",
+    "centroid_speedups": [
+      1.5330878914092447,
+      0.9430425337940151,
+      0.6676873286341405
+    ],
+    "index_bytes": 9175040,
+    "corpus_bytes": 33554432
+  },
+  "source_blobs": {
+    "qctx/batch_screen.py": "ba426c529e77eb764774327beed2bbc1a164452c",
+    "qctx/__init__.py": "bdbc49e24bbd8233e5f65e7a2eec7c7e31d647ff",
+    "experiments/qb_compact04/benchmark.py": "79931e027caeee74c899b5876e3967caa7c1201f",
+    "experiments/qb_compact04/tests/test_batch.py": "fc4f5ec7dd9d77f3be70575b21f8981d260af368"
+  },
+  "archive_sha256": "c9ce58baa34213c76599cef3db2635c0cb6b6b63916d175e5ff343223e17a2a2",
+  "receipt_sha256": {
+    "centroid_58701.json": "d23c3ba489233016d509ca3f5319f55bdb0f57471aed6dff75835fcdd3423082",
+    "quick_centroid_58703.json": "0cf4df004536803a4a50f50e938895585edc162fa2dcb08764fbba56e30a0cdc",
+    "quick_dense_58703.json": "7fb4f4f04cb0fb2ee180dfc1caadc992972317bcca4ef2d5e537636eb74895dd",
+    "quick_mixed_58703.json": "3bc13887335697b6d1946b0a7650a8557a28ff17877ba47c12a7261ac3c04aa7"
+  },
+  "note": "Timing receipts precede a max_score_cells telemetry-only fix in lower mode. Earlier mixed pilot and timed-out rerun excluded."
+}

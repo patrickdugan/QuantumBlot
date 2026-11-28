@@ -1,0 +1,116 @@
+{
+  "scope": "SYNTHETIC_CPU_ONLY",
+  "tests_passed": 22,
+  "cohorts": 5,
+  "held_out_queries": 160,
+  "development_queries": 80,
+  "screened_ranking_matches": 4224,
+  "bound_comparisons": 32505856,
+  "max_score_error": 9.992007221626409e-16,
+  "index_bytes": {
+    "float64": 17825792,
+    "float32": 9437184,
+    "int16": 5308416,
+    "int8": 3211264
+  },
+  "corpus_bytes": 67108864,
+  "centroid_auto_median_speedup": {
+    "float64": [
+      3.6721077337198107,
+      1.6342178004969872,
+      1.1801636038569572
+    ],
+    "float32": [
+      3.2024566514739243,
+      1.4486844707060522,
+      0.9794506686051233
+    ],
+    "int16": [
+      2.8937852103659436,
+      1.4228736388478274,
+      1.0031889725307974
+    ],
+    "int8": [
+      2.874111528042915,
+      1.5518509176240376,
+      0.9647423572931245
+    ],
+    "native_int8": [
+      3.259989294824676,
+      1.42653759396736,
+      0.7229479471804623
+    ]
+  },
+  "batches": [
+    1,
+    8,
+    32
+  ],
+  "centroid_auto_median_exact_pair_ratio": {
+    "float64": 0.012056350708007812,
+    "float32": 0.012060165405273438,
+    "int16": 0.012067794799804688,
+    "int8": 0.014192581176757812,
+    "native_int8": 0.014136314392089844
+  },
+  "roots": {
+    "58801": {
+      "family": "centroid",
+      "chosen": [
+        "float64_auto",
+        "float64_auto",
+        "float64_auto"
+      ]
+    },
+    "58802": {
+      "family": "mixed",
+      "chosen": [
+        "float64_lower",
+        "full",
+        "full"
+      ]
+    },
+    "58803": {
+      "family": "dense",
+      "chosen": [
+        "full",
+        "full",
+        "full"
+      ]
+    },
+    "58804": {
+      "family": "centroid",
+      "native": true,
+      "chosen": [
+        "float64_auto",
+        "float32_auto",
+        "float64_auto"
+      ]
+    },
+    "58805": {
+      "family": "centroid",
+      "native": true,
+      "chosen": [
+        "float64_auto",
+        "float64_auto",
+        "float64_auto"
+      ]
+    }
+  },
+  "source_blobs": {
+    "qctx/batch_screen.py": "f66e98ce12d24b68effe63e54d991ed7849afb95",
+    "qctx/quantized_screen.py": "16500b00c88324016f8c912a952af5d8effd3f24",
+    "qctx/__init__.py": "852f859538269e7c032084f2f1fd5c4d29eaba1f",
+    "native/quantized_panel.cpp": "ed208bf4dd5be48f3d91f4e6cabc6d1e94b827c0",
+    "experiments/qb_compact05/benchmark.py": "04e5a4b8853b7383d986bb6ef1186deeff010a7f",
+    "experiments/qb_compact05/tests/test_quantized.py": "1a411dc4573603c689c210c98465c2a6753df9d0"
+  },
+  "archive_sha256": "6d38c7ab6c7cf8d31c35ace8a7a1b7e9980a2ac89b8f353f62d6a5591560d053",
+  "receipt_sha256": {
+    "centroid_58801.json": "ea5b4de08f7e5cf3c289bfd29a6395044d7ae37b4e148b0a7b0d23c443abecf9",
+    "centroid_58804_native.json": "9e0da4b94960711cb6d6081bbdf0ba1a744d1e3c5bd5b93d636c2726e2cd2a64",
+    "centroid_58805_native.json": "edfa8b0701074276d01f8d0f8804ac2f9316d415b961e82db1aafbf57b978086",
+    "dense_58803.json": "b62286a18eb7edfb992e6219142adc7b490f5f131443cfdd745c77f8c66facc9",
+    "mixed_58802.json": "4cbee5cfb8b0c20af0f13742c2f801984806bd86d80cdbc75dd1b4f74a52eb5b"
+  }
+}

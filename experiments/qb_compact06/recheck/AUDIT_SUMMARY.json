@@ -1,0 +1,52 @@
+{
+  "scope": "QB06_REFERENCE_RECHECK_SAME_SYNTHETIC_CORPUS_SEEDS",
+  "primary_qb06_commit": "fa7de62a88649076b88d99d402b8981d5f3e34c3",
+  "source_blobs": {
+    "experiments/qb_compact06/recheck/reference_disk.py": "938c274d02e8bd51cb80eef187d3a457cf0d46d9",
+    "experiments/qb_compact06/recheck/benchmark.py": "8b2d5e849195525a9df9df40dbdc6b84413ce245",
+    "experiments/qb_compact06/recheck/tests/test_disk_recheck.py": "d0c6c49c8a50ee064c02c9c975e68ed80e0930fe"
+  },
+  "tests_passed": 30,
+  "new_tests": 8,
+  "distinct_queries": 72,
+  "ranking_checks": 5184,
+  "screening_ranking_checks": 3456,
+  "bound_endpoint_checks": 4718592,
+  "max_score_error": 0,
+  "min_bound_margin": 0.004687877056066901,
+  "index_bytes": 9371648,
+  "backing_bytes": 67108864,
+  "batch24_cold_advice": {
+    "centroid": {
+      "seed": 58911,
+      "mmap_ms": 37.088162,
+      "codes_ms": 183.775523,
+      "codes_bytes": 3137536,
+      "codes_kernel_bytes": 3645440,
+      "codes_read_calls": 729
+    },
+    "mixed": {
+      "seed": 58912,
+      "mmap_ms": 37.574152,
+      "codes_ms": 166.613438,
+      "codes_bytes": 2916352,
+      "codes_kernel_bytes": 3420160,
+      "codes_read_calls": 693
+    },
+    "dense": {
+      "seed": 58913,
+      "mmap_ms": 42.281382,
+      "codes_ms": 266.051118,
+      "codes_bytes": 4939776,
+      "codes_kernel_bytes": 6152192,
+      "codes_read_calls": 1116
+    }
+  },
+  "receipt_sha256": {
+    "centroid_58911.json": "bc8211483a21858c1d9e22cbb3a6967623e18ee5410b78403d9c224276f13a85",
+    "mixed_58912.json": "cdd763f821658517071f477692f148a335ac097afa131944c72a4a7f4819de5e",
+    "dense_58913.json": "28bd1229ec5054fb5bf53fd19e221fbeaea4376b8de85f4f5f8439220ce77a98"
+  },
+  "archive_sha256": "f58d9174e909abdfb8fc5d5aee4b7f3a469967c92dba6bece2fbb6fd22b80fa1",
+  "note": "Full per-condition summaries and raw receipts are in archive. Source imports relocated after timing; explicit timed modes unchanged. Do not pool these same-seed cohorts with main QB06."
+}

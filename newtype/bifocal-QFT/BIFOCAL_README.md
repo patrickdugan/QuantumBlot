@@ -2,6 +2,16 @@
 
 **Nested Quantum Fourier Transform for Trillion-Token Scale Retrieval**
 
+> **QB-COMPACT-01 scope correction:** the current implementation prepares uniform
+> states and does not load corpus amplitudes or metadata values. Its two QFTs
+> map the uniform registers to zero, and the ideal measured output has only
+> two or four possible bitstrings. The retrieval and quantum-advantage
+> descriptions below are architectural aspirations, not demonstrated properties.
+> See [the exact compaction audit](../../experiments/qb_compact01/README.md).
+> For this fixed ideal measured circuit, use `build_circuit(compact_measured=True)`
+> or `bifocal_compact.sample_counts` for the equivalent classical law. This does
+> not preserve the shadow state or the noisy hardware distribution.
+
 ## What This Does
 
 Two-stage QFT with shadow watermarking for efficient retrieval across massive synthetic corpora.

@@ -30,6 +30,8 @@ except Exception:
     from sc1028 import decode_from_base64url  # type: ignore
 
 
+from spectral_bin import inject_conjugate_pair, selected_bin
+
 BIT_WIDTH: int = 1028
 AttestationMode = Literal["crypto", "spectral", "both"]
 
@@ -112,7 +114,7 @@ class SpectralWatermarker:
         return signature
 
     def embed_spectral_signature(self, latent_components: np.ndarray) -> np.ndarray:
-        """Apply FFT, inject deterministic signature, apply inverse FFT."""
+        """Inject a conjugate-bin signature directly as its inverse DFT tone."""
         if latent_components.ndim != 2:
             raise ValueError("latent_components must have shape (T, k)")
         T, K = latent_components.shape
@@ -123,14 +125,8 @@ class SpectralWatermarker:
         if freq >= T:
             freq = max(1, T // 2 - 1)
 
-        spectrum = np.fft.fft(latent_components, axis=0)
         signature = self._signature_vector(K)
-        spectrum[freq, :] = spectrum[freq, :] + signature
-        mirror = (-freq) % T
-        spectrum[mirror, :] = spectrum[mirror, :] + np.conjugate(signature)
-
-        reconstructed = np.fft.ifft(spectrum, axis=0).real
-        return reconstructed
+        return inject_conjugate_pair(latent_components, freq, signature)
 
     def reconstruct_trace(
         self,
@@ -171,8 +167,7 @@ class SpectralWatermarker:
         if freq >= T:
             freq = max(1, T // 2 - 1)
 
-        spectrum = np.fft.fft(latent, axis=0)
-        coeff = spectrum[freq, :]
+        coeff = selected_bin(latent, freq)
         target = self._signature_vector(K)
 
         coeff_norm = np.linalg.norm(coeff) + 1e-12

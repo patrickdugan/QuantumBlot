@@ -63,8 +63,22 @@ class BifocalQFT:
         self.shadow_reg = None
         self.classical_reg = None
         
-    def build_circuit(self) -> QuantumCircuit:
-        """Build complete bifocal QFT circuit"""
+    def build_circuit(self, *, compact_measured: bool = False) -> QuantumCircuit:
+        """Build legacy circuit, or its ideal computational-readout equivalent.
+
+        Compact mode preserves only the measured data marginal, not the shadow
+        register state. It applies to the existing uniform-input prototype.
+        """
+        if compact_measured:
+            from bifocal_compact import build_compact_circuit
+            if self.config.n_shadow < 4:
+                raise ValueError("compact mode requires the supported legacy shadow configuration")
+            self.circuit = build_compact_circuit(
+                self.config.n_coarse, self.config.n_fine, self.config.codec
+            )
+            self.coarse_reg = self.fine_reg = self.shadow_reg = self.classical_reg = None
+            return self.circuit
+
         
         # Create quantum registers
         self.coarse_reg = QuantumRegister(self.config.n_coarse, 'coarse')
